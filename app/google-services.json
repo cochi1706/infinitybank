@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1019711538421",
+    "project_id": "bankeu-d03ef",
+    "storage_bucket": "bankeu-d03ef.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1019711538421:android:15476ddf79789624db71bc",
+        "android_client_info": {
+          "package_name": "com.mobile.infinitybank"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtzO2yhQiZrQR3I5D5k0pZc2PptXEDCpw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

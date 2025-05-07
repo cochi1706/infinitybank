@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Tiêu đề -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cập nhật lãi suất"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="2" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/white_background"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilAccount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Nhập số tài khoản người nhận"
+                        app:errorEnabled="true"
+                        app:hintEnabled="true"
+                        android:background="@drawable/white_background"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etAccount"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:inputType="number"
+                            android:maxLength="20"
+                            android:imeOptions="actionDone"
+                            android:textColor="#1A2526"
+                            android:textSize="16sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCheckRecipient"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Kiểm tra"
+                        android:textColor="#FFFFFF"
+                        app:iconGravity="textStart"
+                        app:iconTint="#FFFFFF"
+                        android:background="@drawable/gradient_button"/>
+                </LinearLayout>
+
+                <!-- Tên người nhận -->
+                <TextView
+                    android:id="@+id/tvRecipientNameLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tên người nhận"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="4dp"
+                    android:shadowColor="#000000"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="2" />
+
+                <TextView
+                    android:id="@+id/tvRecipientName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="8dp"
+                    android:shadowColor="#000000"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="2" />
+
+                <!-- Hiển thị lãi suất hiện tại -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lãi suất hiện tại"
+                    android:textSize="16sp"
+                    android:textColor="#1A2526"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvCurrentInterestRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/white_background"
+                    android:padding="12dp"
+                    android:text="%"
+                    android:textSize="16sp"
+                    android:textColor="#1A2526"
+                    android:layout_marginBottom="16dp"
+                    android:editable="false"/>
+
+                <!-- Nhập lãi suất mới -->
+                <TextView
+                    android:id="@+id/tvNewInterestRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lãi suất mới"
+                    android:textSize="16sp"
+                    android:textColor="#1A2526"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/etInterestRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Nhập lãi suất mới (%)"
+                    android:inputType="numberDecimal"
+                    android:padding="12dp"
+                    android:background="@drawable/white_background"
+                    android:textColor="#1A2526"
+                    android:textColorHint="#757575"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Xác thực nhân viên -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Xác thực nhân viên"
+                    android:textSize="16sp"
+                    android:textColor="#1A2526"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/etEmployeePassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Nhập mật khẩu nhân viên"
+                    android:inputType="textPassword"
+                    android:padding="12dp"
+                    android:background="@drawable/white_background"
+                    android:textColor="#1A2526"
+                    android:textColorHint="#757575"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Nút Cập nhật lãi suất -->
+                <Button
+                    android:id="@+id/btnUpdateRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:text="Cập nhật lãi suất"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:background="@drawable/gradient_button" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Loading Overlay -->
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateTint="#FFFFFF" />
+
+    </FrameLayout>
+
+</FrameLayout>

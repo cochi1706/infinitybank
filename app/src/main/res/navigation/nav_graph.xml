@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <!-- MainFragment -->
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.mobile.infinitybank.controller.fragment.MainFragment"
+        android:label="MainFragment" />
+
+    <!-- TransactionHistoryFragment -->
+    <fragment
+        android:id="@+id/transactionHistoryFragment"
+        android:name="com.mobile.infinitybank.controller.fragment.TransactionHistoryFragment"
+        android:label="TransactionHistoryFragment">
+        <action
+            android:id="@+id/action_transactionHistoryFragment_to_transactionDetailFragment"
+            app:destination="@id/transactionDetailFragment" />
+    </fragment>
+
+    <!-- TransactionDetailFragment -->
+    <fragment
+        android:id="@+id/transactionDetailFragment"
+        android:name="com.mobile.infinitybank.controller.fragment.TransactionDetailFragment"
+        android:label="TransactionDetailFragment">
+        <argument
+            android:name="transactionId"
+            app:argType="string" />
+    </fragment>
+
+    <!-- Các fragment khác -->
+    <fragment
+        android:id="@+id/nav_notifications"
+        android:name="com.mobile.infinitybank.controller.fragment.NotificationsFragment"
+        android:label="NotificationsFragment" />
+    <fragment
+        android:id="@+id/nav_location"
+        android:name="com.mobile.infinitybank.controller.fragment.LocationFragment"
+        android:label="LocationFragment" />
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.mobile.infinitybank.controller.fragment.ProfileFragment"
+        android:label="ProfileFragment" />
+</navigation>

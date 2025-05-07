@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Tiêu đề -->
+            <TextView
+                android:id="@+id/tvTransactionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giao dịch tài khoản"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="2" />
+
+            <!-- Nội dung gửi/rút tiền -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/white_background"
+                android:padding="16dp">
+
+                <!-- Chọn tài khoản nguồn -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tài khoản nguồn"
+                    android:textSize="16sp"
+                    android:textColor="#1A2526"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/white_background"
+                    android:padding="12dp"
+                    android:layout_marginBottom="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_bank"
+                        android:contentDescription="Bank Icon"
+                        android:layout_marginEnd="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <Spinner
+                            android:id="@+id/spinnerSourceAccount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:spinnerMode="dropdown" />
+
+                        <TextView
+                            android:id="@+id/tvCurrentBalance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Số dư hiện tại:"
+                            android:textColor="#1A2526"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Phần gửi tiền -->
+                <LinearLayout
+                    android:id="@+id/layoutDeposit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/white_background">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nạp tiền"
+                        android:textSize="16sp"
+                        android:textColor="#1A2526"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp" />
+
+                    <EditText
+                        android:id="@+id/etDepositAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:hint="Số tiền nạp (VND)"
+                        android:inputType="numberDecimal"
+                        android:padding="12dp"
+                        android:background="@drawable/white_background"
+                        android:textColor="#1A2526"
+                        android:textColorHint="#757575"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="16dp" />
+
+                    <Button
+                        android:id="@+id/btnDeposit"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:text="Nạp tiền"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/gradient_button"
+                        android:padding="1dp"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="16dp" />
+                </LinearLayout>
+
+                <!-- Phần rút tiền -->
+                <LinearLayout
+                    android:id="@+id/layoutWithdraw"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/white_background">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rút tiền"
+                        android:textSize="16sp"
+                        android:textColor="#1A2526"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp" />
+
+                    <EditText
+                        android:id="@+id/etWithdrawAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:hint="Số tiền rút (VND)"
+                        android:inputType="numberDecimal"
+                        android:padding="12dp"
+                        android:background="@drawable/white_background"
+                        android:textColor="#1A2526"
+                        android:textColorHint="#757575"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="16dp" />
+                    <Button
+                        android:id="@+id/btnWithdraw"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:text="Rút tiền"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/gradient_button"
+                        android:padding="1dp"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <!-- Xác thực giao dịch -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Xác thực giao dịch"
+                    android:layout_marginTop="16dp"
+                    android:textSize="16sp"
+                    android:textColor="#1A2526"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/etTransactionPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Mật khẩu giao dịch"
+                    android:inputType="textPassword"
+                    android:padding="12dp"
+                    android:background="@drawable/white_background"
+                    android:textColor="#1A2526"
+                    android:textColorHint="#757575"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="16dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+    </FrameLayout>
+
+</FrameLayout>

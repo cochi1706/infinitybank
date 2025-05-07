@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="account_types">
+        <item>Tài khoản chính</item>
+        <item>Tài khoản tiết kiệm</item>
+        <item>Tài khoản vay</item>
+    </string-array>
+
+    <string-array name="gender_options">
+        <item>Khác</item>
+        <item>Nam</item>
+        <item>Nữ</item>
+    </string-array>
+
+    <string-array name="bank_names">
+        <item>ACB</item>
+        <item>BIDV</item>
+        <item>HDBank</item>
+        <item>ViettelMoney</item>
+        <item>Vietcombank</item>
+        <item>Techcombank</item>
+        <item>VPBank</item>
+        <item>VietinBank</item>
+        <item>MBBank</item>
+        <item>Agribank</item>
+        <item>Sacombank</item>
+        <item>TPBank</item>
+        <item>VIB</item>
+        <item>BacABank</item>
+        <item>Eximbank</item>
+        <item>OceanBank</item>
+        <item>SHB</item>
+        <item>BVB</item>
+        <item>ABBank</item>
+        <item>PVcomBank</item>
+    </string-array>
+</resources> 

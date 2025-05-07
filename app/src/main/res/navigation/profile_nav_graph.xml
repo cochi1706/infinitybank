@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/profile_nav_graph"
+    app:startDestination="@id/userInfoFragment">
+    <fragment
+        android:id="@+id/userInfoFragment"
+        android:name="com.mobile.infinitybank.controller.fragment.UserInfoFragment"
+        android:label="Thông tin người dùng" />
+    <fragment
+        android:id="@+id/accountInfoFragment"
+        android:name="com.mobile.infinitybank.controller.fragment.AccountInfoFragment"
+        android:label="Thông tin tài khoản" />
+
+    <fragment
+        android:id="@+id/transactionHistoryFragment"
+        android:name="com.mobile.infinitybank.controller.fragment.TransactionHistoryFragment"
+        android:label="Lịch sử giao dịch">
+        <action
+            android:id="@+id/action_transactionHistoryFragment_to_transactionDetailFragment"
+            app:destination="@id/transactionDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/transactionDetailFragment"
+        android:name="com.mobile.infinitybank.controller.fragment.TransactionDetailFragment"
+        android:label="Chi tiết giao dịch">
+        <argument
+            android:name="transactionId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/depositWithdrawFragment"
+        android:name="com.mobile.infinitybank.controller.fragment.DepositWithdrawFragment"
+        android:label="Giao dịch tài khoản" />
+
+    <fragment
+        android:id="@+id/updateRateFragment"
+        android:name="com.mobile.infinitybank.controller.fragment.UpdateRateFragment"
+        android:label="Cập nhật lãi suất" />
+</navigation>

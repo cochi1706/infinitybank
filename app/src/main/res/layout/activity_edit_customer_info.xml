@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/gradient_header">
+
+        <!-- 1. Thanh tiêu đề (Header) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_header"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:tint="#FFFFFF"
+                android:src="@drawable/ic_back"
+                android:contentDescription="Back Button" />
+
+            <TextView
+                android:id="@+id/tvPaymentTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Tooong tin khách hàng"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="2" />
+
+            <ImageView
+                android:id="@+id/ivHelp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="Help Icon" />
+        </LinearLayout>
+
+        <!-- ScrollView để hỗ trợ cuộn nếu nội dung dài -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="12dp"
+            android:background="@drawable/gradient_header">
+
+            <TextView
+                android:id="@+id/tvRecipientAccountLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Số tài khoản"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="2" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilAccount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Nhập số tài khoản khách hàng"
+                    app:errorEnabled="true"
+                    app:hintEnabled="true"
+                    android:background="@drawable/white_background"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAccount"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:inputType="number"
+                        android:maxLength="20"
+                        android:imeOptions="actionDone"
+                        android:textColor="#1A2526"
+                        android:textSize="16sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCheckRecipient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Kiểm tra"
+                    android:textColor="#FFFFFF"
+                    app:iconGravity="textStart"
+                    app:iconTint="#FFFFFF"
+                    android:background="@drawable/gradient_button"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Trường Họ và tên -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etFullName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="Họ và tên"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="#6200EA"
+                    app:hintTextColor="#6200EA">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:background="@drawable/white_background"
+                        android:textColor="#212121"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Trường Ngày sinh -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etDateOfBirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="Ngày sinh (dd/MM/yyyy)"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="#6200EA"
+                    app:hintTextColor="#6200EA">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/white_background"
+                        android:inputType="date"
+                        android:textColor="#212121"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Trường Giới tính -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Giới tính"
+                        android:textColor="#6200EA"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="4dp"/>
+
+                    <Spinner
+                        android:id="@+id/spinnerGender"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/white_background"
+                        android:padding="12dp"
+                        android:entries="@array/gender_options"
+                        android:spinnerMode="dropdown" />
+                </LinearLayout>
+
+                <!-- Trường Email -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="Email"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="#6200EA"
+                    app:hintTextColor="#6200EA">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:background="@drawable/white_background"
+                        android:textColor="#212121"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Trường Số điện thoại -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="Số điện thoại"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="#6200EA"
+                    app:hintTextColor="#6200EA">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:background="@drawable/white_background"
+                        android:textColor="#212121"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Nút Lưu -->
+                <Button
+                    android:id="@+id/btnSave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="#6200EA"
+                    android:padding="12dp"
+                    android:text="Lưu"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+
+                <!-- Nút Hủy -->
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="#FF0000"
+                    android:padding="12dp"
+                    android:text="Hủy"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+    </FrameLayout>
+
+</FrameLayout>

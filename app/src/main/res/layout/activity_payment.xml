@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/gradient_header">
+
+        <!-- 1. Thanh tiêu đề (Header) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_header"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:tint="#FFFFFF"
+                android:src="@drawable/ic_back"
+                android:contentDescription="Back Button" />
+
+            <TextView
+                android:id="@+id/tvPaymentTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Thanh toán hóa đơn"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="2" />
+
+            <ImageView
+                android:id="@+id/ivHelp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="Help Icon" />
+        </LinearLayout>
+
+        <!-- 2. Danh sách dịch vụ thanh toán -->
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollViewPayment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Từ tài khoản"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"
+                    android:shadowColor="#000000"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="2" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/white_background"
+                    android:padding="12dp"
+                    android:layout_marginBottom="8dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_bank"
+                        android:contentDescription="Bank Icon"
+                        android:layout_marginEnd="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <Spinner
+                            android:id="@+id/spinnerSourceAccount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:spinnerMode="dropdown" />
+
+                        <TextView
+                            android:id="@+id/tvCurrentBalance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#2A0080"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/ivSourceAccountOptions"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="Options" />
+                </LinearLayout>
+
+                <!-- Chọn loại hóa đơn -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chọn loại hóa đơn"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"
+                    android:shadowColor="#000000"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="2" />
+
+                <Spinner
+                    android:id="@+id/spinnerBillType"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/white_background"
+                    android:padding="12dp"
+                    android:spinnerMode="dropdown" />
+
+                <!-- Thông tin hóa đơn -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thông tin hóa đơn"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:shadowColor="#000000"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="2" />
+
+                <TextView
+                    android:id="@+id/etBillNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="Số hợp đồng/Mã hóa đơn"
+                    android:inputType="text"
+                    android:background="@drawable/white_background"
+                    android:padding="12dp"
+                    android:textColor="#1A2526"
+                    android:textColorHint="#757575"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvBillAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Số tiền: (Tự động hiển thị)"
+                    android:textColor="#1A2526"
+                    android:textSize="14sp"
+                    android:padding="8dp"
+                    android:background="@drawable/white_background"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <!-- Nút tiếp tục -->
+        <Button
+            android:id="@+id/btnContinue"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Tiếp tục"
+            android:background="@drawable/gradient_button"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:layout_margin="16dp" />
+
+        <!-- 3. Xác nhận thanh toán -->
+        <LinearLayout
+            android:id="@+id/layoutConfirmation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Xác nhận thanh toán"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="2" />
+
+            <TextView
+                android:id="@+id/tvConfirmationDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Thông tin thanh toán sẽ hiển thị ở đây..."
+                android:textColor="#1A2526"
+                android:textSize="14sp"
+                android:padding="8dp"
+                android:background="@drawable/white_background"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/etOTP"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Nhập OTP"
+                android:inputType="number"
+                android:background="@drawable/white_background"
+                android:padding="12dp"
+                android:textColor="#1A2526"
+                android:textColorHint="#757575"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etTransactionPassword"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Mật khẩu PIN"
+                android:inputType="textPassword"
+                android:background="@drawable/white_background"
+                android:padding="12dp"
+                android:textColor="#1A2526"
+                android:textColorHint="#757575"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Xác nhận"
+                android:background="@drawable/gradient_button"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:layout_marginTop="16dp" />
+        </LinearLayout>
+
+        <!-- 4. Thông báo kết quả -->
+        <LinearLayout
+            android:id="@+id/layoutResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvResultMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Thanh toán thành công!"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="2" />
+
+            <TextView
+                android:id="@+id/tvReceipt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Biên lai thanh toán sẽ hiển thị ở đây..."
+                android:textColor="#1A2526"
+                android:textSize="14sp"
+                android:padding="8dp"
+                android:background="@drawable/white_background"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/btnDownloadReceipt"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Tải xuống biên lai"
+                android:background="@drawable/gradient_button"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/btnBackToHome"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Quay lại trang chủ"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#2A0080"
+                android:layout_marginTop="16dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+    </FrameLayout>
+
+</FrameLayout>

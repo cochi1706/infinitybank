@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">InfinityBank</string>
+
+    <!-- Bottom Navigation Titles -->
+    <string name="title_home">Home</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_patients">Patients</string>
+    <string name="title_appointments">Appointments</string>
+</resources>
