@@ -237,12 +237,7 @@ public class TransferActivity extends AppCompatActivity {
         });
 
         binding.btnConfirm.setOnClickListener(a -> {
-            if (transferAmount >= 10000000) {
-                binding.btnVerifyFingerprint.setVisibility(View.VISIBLE);
-            }
-            else {
-                binding.btnVerifyFingerprint.setVisibility(View.GONE);
-            }
+
             performTransfer();
         });
 
@@ -295,12 +290,7 @@ public class TransferActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                isLivenessDetectionPassed = true;
-            }
-            else {
-                isLivenessDetectionPassed = false;
-            }
+            isLivenessDetectionPassed = resultCode == RESULT_OK;
         }
     }
 
@@ -348,6 +338,16 @@ public class TransferActivity extends AppCompatActivity {
             showMessage("Số dư không đủ để thực hiện giao dịch");
             return false;
         }
+        if (transferAmount >= 10000000) {
+            binding.btnVerifyFingerprint.setVisibility(View.VISIBLE);
+            isLivenessDetectionPassed = false;
+            Intent intent = new Intent(this, LivenessDetectionActivity.class);
+            startActivityForResult(intent, 1);
+        }
+        else {
+            isLivenessDetectionPassed = true;
+            binding.btnVerifyFingerprint.setVisibility(View.GONE);
+        }
         return true;
     }
 
@@ -381,15 +381,6 @@ public class TransferActivity extends AppCompatActivity {
             return;
         }
 
-        if (transferAmount >= 10000000) {
-            isLivenessDetectionPassed = false;
-            Intent intent = new Intent(this, LivenessDetectionActivity.class);
-            startActivityForResult(intent, 1);
-        }
-        else {
-            isLivenessDetectionPassed = true;
-        }
-
         if (!isLivenessDetectionPassed) {
             showMessage("Xác thực không thành công");
             return;
@@ -405,7 +396,7 @@ public class TransferActivity extends AppCompatActivity {
         }
         else {
             bankAccountService.withdraw(accountId, transferAmount);
-            recipientAccount += " - " + recipientName;
+            recipientAccount += "- " + recipientName;
         }
 
         Transaction transaction = new Transaction(accountId, recipientAccount, -transferAmount, description, detail);

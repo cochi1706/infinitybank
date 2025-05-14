@@ -1,15 +1,12 @@
 package com.mobile.infinitybank.service;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-
-import androidx.core.app.NotificationCompat;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.mobile.infinitybank.R;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 import com.mobile.infinitybank.model.NotificationItem;
 import com.mobile.infinitybank.model.User;
 import com.mobile.infinitybank.repository.NotificationRepository;
@@ -32,22 +29,29 @@ public class NotificationService {
     public Task<Void> createNotification(NotificationItem notification) {
         String userId = notification.getUserId();
         if (userId.contains("_")) {
-            userId = userId.split("_")[0];
+            userId = userId.split("_")[0].strip();
+        }
+        if (userId.contains("-")) {
+            userId = userId.split("-")[0].strip();
         }
         notification.setUserId(userId);
-        userService.getCurrentUser().addOnSuccessListener(DocumentSnapshot -> {
-            User currentUser = DocumentSnapshot.toObject(User.class);
-            currentUserId = currentUser.getId();
-            String id = notification.getUserId();
-            if (id.contains("_")) {
-                id = id.split("_")[0];
+        userService.getUserById(userId).addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot == null) {
+                return;
             }
-            if (currentUserId.equals(id)) {
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "channel_id")
-                        .setSmallIcon(R.drawable.ic_bank)
-                        .setContentTitle(notification.getTitle())
-                        .setContentText(notification.getContent())
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+            User currentUser = documentSnapshot.toObject(User.class);
+            String token = currentUser.getToken();
+            if (token != null) {
+                // Create FCM message payload
+                String title = notification.getTitle();
+                String body = notification.getContent();
+                
+                // Build FCM notification message
+                RemoteMessage message = new RemoteMessage.Builder(token + "@gcm.googleapis.com")
+                        .addData("title", title)
+                        .addData("body", body)
+                        .build();
+                FirebaseMessaging.getInstance().send(message);
             }
         });
         return notificationRepository.createNotification(notification);

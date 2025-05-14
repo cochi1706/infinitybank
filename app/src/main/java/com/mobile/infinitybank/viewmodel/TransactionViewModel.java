@@ -11,6 +11,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.mobile.infinitybank.model.Transaction;
 import com.mobile.infinitybank.service.TransactionService;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -60,7 +61,9 @@ public class TransactionViewModel extends AndroidViewModel {
     public void loadTransactions(String currentUserId) {
         this.currentUserId = currentUserId;
         transactionService.getTransactionsByUserId(currentUserId).addOnSuccessListener(queryDocumentSnapshots -> {
-            transactions.postValue(queryDocumentSnapshots.toObjects(Transaction.class));
+            List<Transaction> transactionList = queryDocumentSnapshots.toObjects(Transaction.class);
+            // Collections.sort(transactionList, (t1, t2) -> t1.getDate().compareTo(t2.getDate())); // Sort ascending
+            transactions.postValue(transactionList);
         });
     }
 

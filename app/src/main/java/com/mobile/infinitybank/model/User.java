@@ -47,6 +47,9 @@ public class User {
     @PropertyName("isLocked")
     private boolean isLocked = false;
 
+    @PropertyName("token")
+    private String token;
+
     public User(String phoneNumber, String email, String passwordHash,
                 String fullName, Date dateOfBirth, String gender, String userType) {
         this.id = phoneNumber;

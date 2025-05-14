@@ -1,5 +1,6 @@
 package com.mobile.infinitybank.controller;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,9 +8,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.text.method.SingleLineTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceIdReceiver;
+
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.mobile.infinitybank.R;
 import com.mobile.infinitybank.databinding.ActivityLoginBinding;
 import com.mobile.infinitybank.model.User;
@@ -39,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setupListeners();
+        userService.logout();
     }
 
     private void setupListeners() {
@@ -105,6 +114,21 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putBoolean("isLoggedIn", true);
                     editor.putBoolean("isEmployee", isEmployee);
                     editor.apply();
+
+                    FirebaseMessaging.getInstance().getToken()
+                        .addOnCompleteListener(new OnCompleteListener<String>() {
+                            @Override
+                            public void onComplete(@NonNull Task<String> task) {
+                            if (!task.isSuccessful()) {
+                                return;
+                            }
+
+                            // Get new FCM registration token
+                            String token = task.getResult();
+                            user.setToken(token);
+                            userService.update(user);
+                            }
+                        });
                 });
 
                 Intent intent = new Intent(this, MainActivity.class);

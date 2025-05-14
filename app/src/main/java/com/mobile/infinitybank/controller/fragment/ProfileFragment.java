@@ -57,7 +57,6 @@ public class ProfileFragment extends Fragment {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Giao dịch tài khoản"));
             sharedPreferences = this.getActivity().getSharedPreferences("MyPrefs", MODE_PRIVATE);
             Boolean isEmployee = sharedPreferences.getBoolean("isEmployee", false);
-            Log.d(TAG, "isEmployee: " + isEmployee);
             if (isEmployee) {
                 binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Cập nhật lãi suất"));
             }

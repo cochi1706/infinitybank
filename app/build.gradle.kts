@@ -91,6 +91,9 @@ dependencies {
 
     // ML Kit - Barcode Scanning
     implementation("com.google.mlkit:barcode-scanning:17.2.0")
+    implementation("com.google.mlkit:common:18.9.0")
+    implementation("com.google.android.gms:play-services-mlkit-face-detection:17.1.0")
+    implementation("com.google.mlkit:face-detection:16.1.5")
     
     // ekyc - Exclude conflicting TensorFlow dependencies
     implementation("com.github.EKYCSolutions:ekyc-id-android:1.0.58") {
@@ -106,6 +109,9 @@ dependencies {
     implementation(files("libs/merchant-1.0.25.aar"))
     implementation("com.google.code.gson:gson:2.8.5")
     implementation("com.squareup.okhttp3:okhttp:3.12.13")
+
+    // Biometric Prompt
+    implementation("androidx.biometric:biometric:1.1.0")
 }
 
 secrets {

@@ -99,6 +99,7 @@ public class TransactionRepository extends BaseRepository<Transaction> {
         return db.collection(COLLECTION_NAME)
                 .whereIn("sourceAccount", sourceAccounts)
                 .orderBy("date", Query.Direction.DESCENDING)
+                .limit(20)
                 .get();
     }
 

@@ -1,11 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.ekycsolutions.ekycid.livenessdetection.cameraview.LivenessDetectionCameraView
-      android:id="@+id/livenessDetectionCameraView"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent" />
+        android:id="@+id/livenessDetectionCameraView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/ivFaceFrame"
+            android:layout_width="280dp"
+            android:layout_height="350dp"
+            android:layout_gravity="center"
+            android:alpha="0.8"
+            android:src="@drawable/face_frame" />
+    </com.ekycsolutions.ekycid.livenessdetection.cameraview.LivenessDetectionCameraView>
+
+    <!-- Face Frame Overlay -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#80000000"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvScanningStep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:text="Vui lòng nhìn thẳng vào camera" />
+
+        <TextView
+            android:id="@+id/tvStepDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:text="Giữ nguyên vị trí cho đến khi hoàn thành" />
+
+    </LinearLayout>
+
+</FrameLayout>

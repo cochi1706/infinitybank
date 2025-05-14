@@ -111,10 +111,10 @@ public class ScanVNPayActivity extends AppCompatActivity {
         isProcessingPayment = true;
 
         Intent intent = new Intent(this, VNP_AuthenticationActivity.class);
-        intent.putExtra("url", "https://sandbox.vnpayment.vn/testsdk/"); //bắt buộc, VNPAY cung cấp
-        intent.putExtra("tmn_code", "FAHASA03"); //bắt buộc, VNPAY cung cấp
-        intent.putExtra("scheme", "resultactivity"); //bắt buộc, scheme để mở lại app khi có kết quả thanh toán từ mobile banking
-        intent.putExtra("is_sandbox", false); //bắt buộc, true <=> môi trường test, true <=> môi trường live
+        intent.putExtra("url", "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"); //bắt buộc, VNPAY cung cấp
+        intent.putExtra("tmn_code", "7KXSGFFI"); //bắt buộc, VNPAY cung cấp
+        intent.putExtra("scheme", "com.mobile.infinitybank.controller.ScanVNPayActivity"); //bắt buộc, scheme để mở lại app khi có kết quả thanh toán từ mobile banking
+        intent.putExtra("is_sandbox", true); //bắt buộc, true <=> môi trường test, false <=> môi trường live
         VNP_AuthenticationActivity.setSdkCompletedCallback(new VNP_SdkCompletedCallback() {
             @Override
             public void sdkAction(String action) {
@@ -133,13 +133,13 @@ public class ScanVNPayActivity extends AppCompatActivity {
                         break;
                     case "FaildBackAction":
                         // Payment failed
-                        Toast.makeText(ScanVNPayActivity.this, 
+                        Toast.makeText(ScanVNPayActivity.this,
                             "Thanh toán thất bại", Toast.LENGTH_SHORT).show();
                         finish();
                         break;
                     case "SuccessBackAction":
                         // Payment successful
-                        Toast.makeText(ScanVNPayActivity.this, 
+                        Toast.makeText(ScanVNPayActivity.this,
                             "Thanh toán thành công", Toast.LENGTH_SHORT).show();
                         finish();
                         break;
@@ -196,7 +196,7 @@ public class ScanVNPayActivity extends AppCompatActivity {
                     for (Barcode barcode : barcodes) {
                         if (barcode.getValueType() == Barcode.TYPE_TEXT) {
                             String value = barcode.getRawValue();
-                            //TODO: handle VNPay
+                            //example value: 00020101021226290010A0000007750111987498237455204481453037045405100005802VN5909CTT VNPAY6005HANOI62610312CTT VNPAY 01051901250513131640191800708CTTVNP010806testtt63041F6E
 //                            startVNPayPayment(value);
                         }
                     }
