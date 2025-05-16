@@ -1,5 +1,6 @@
 package com.mobile.infinitybank.controller.fragment;
 
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -7,18 +8,33 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.OnMapsSdkInitializedCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.mobile.infinitybank.R;
 import com.mobile.infinitybank.databinding.FragmentLocationBinding;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.Priority;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.SettingsClient;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -26,11 +42,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-public class LocationFragment extends Fragment implements OnMapReadyCallback {
+public class LocationFragment extends Fragment implements OnMapReadyCallback, OnMapsSdkInitializedCallback {
 
     private FragmentLocationBinding binding;
     private GoogleMap mMap;
     private static final String TAG = "LocationFragment";
+    private LatLng userLocation;
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationCallback locationCallback;
+    private static final long UPDATE_INTERVAL = 600000; // 10 minutes
+    private static final long FASTEST_INTERVAL = 300000; // 5 minutes
 
     // Danh sách chi nhánh ngân hàng mẫu (latitude, longitude)
     private final List<LatLng> bankBranches = new ArrayList<LatLng>() {{
@@ -69,6 +90,47 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentLocationBinding.inflate(inflater, container, false);
+        
+        // Initialize Maps SDK
+        try {
+            MapsInitializer.initialize(requireContext(), MapsInitializer.Renderer.LATEST, this);
+        } catch (Exception e) {
+            Log.e(TAG, "Error initializing Maps SDK: " + e.getMessage());
+            Toast.makeText(requireContext(), 
+                "Không thể khởi tạo bản đồ. Vui lòng kiểm tra kết nối mạng và thử lại.", 
+                Toast.LENGTH_LONG).show();
+        }
+
+        // Initialize FusedLocationProviderClient
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
+        
+        // Create location callback
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (android.location.Location location : locationResult.getLocations()) {
+                    // Update user location
+                    userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    // Update map if it's ready
+                    if (mMap != null) {
+                        updateMapWithLocation();
+                    }
+                }
+            }
+        };
+
+        // Check location permission and start location updates
+        if (ActivityCompat.checkSelfPermission(requireContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            startLocationUpdates();
+        } else {
+            ActivityCompat.requestPermissions(requireActivity(),
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
+        }
         return binding.getRoot();
     }
 
@@ -95,25 +157,52 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
+    public void onMapsSdkInitialized(MapsInitializer.Renderer renderer) {
+        switch (renderer) {
+            case LATEST:
+                Log.d(TAG, "The latest version of the renderer is used.");
+                break;
+            case LEGACY:
+                Log.d(TAG, "The legacy version of the renderer is used.");
+                break;
+        }
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         Log.d(TAG, "Map is ready");
 
-        // Hiển thị vị trí mặc định ban đầu
-        useDefaultLocation();
+        try {
+            // Enable location if permission is granted
+            if (ActivityCompat.checkSelfPermission(requireContext(),
+                    android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                mMap.setMyLocationEnabled(true);
+                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            }
+
+            // Configure map settings
+            mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.getUiSettings().setCompassEnabled(true);
+            mMap.getUiSettings().setMapToolbarEnabled(true);
+
+            // Set default location
+            useDefaultLocation();
+        } catch (Exception e) {
+            Log.e(TAG, "Error configuring map: " + e.getMessage());
+            Toast.makeText(requireContext(), 
+                "Không thể cấu hình bản đồ. Vui lòng thử lại.", 
+                Toast.LENGTH_LONG).show();
+        }
     }
 
     private void useDefaultLocation() {
-        LatLng defaultLocation = new LatLng(10.7769, 106.7009); // TP.HCM làm mặc định
-        Log.d(TAG, "Using default location: " + defaultLocation.latitude + ", " + defaultLocation.longitude);
-        updateMapWithLocation(defaultLocation);
-        binding.tvRouteInfo.setText("Sử dụng vị trí mặc định TP.HCM!");
+        updateMapWithLocation();
     }
 
     private void searchAddress(String addressInput) {
         // Chuẩn hóa chuỗi nhập vào thành không dấu
         String normalizedInput = removeDiacritics(addressInput).toLowerCase();
-        Log.d(TAG, "Normalized input: " + normalizedInput);
 
         try {
             // Tìm các địa điểm có chứa "Nguyễn Thị Thập"
@@ -141,24 +230,24 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback {
                 }
 
                 if (nearestAddress != null) {
-                    LatLng userLocation = new LatLng(nearestAddress.getLatitude(), nearestAddress.getLongitude());
+                    LatLng targetLocation = new LatLng(nearestAddress.getLatitude(), nearestAddress.getLongitude());
                     Log.d(TAG, "Found location: " + nearestAddress.getFeatureName() + ", " + nearestAddress.getLatitude() + ", " + nearestAddress.getLongitude());
-                    updateMapWithLocation(userLocation);
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(targetLocation, 15f));
                     binding.tvRouteInfo.setText("Đã tìm thấy: " + nearestAddress.getFeatureName() + ", Quận 7");
                 } else {
                     Log.w(TAG, "No valid location found, using default");
                     useDefaultLocation();
-                    binding.tvRouteInfo.setText("Không tìm thấy địa chỉ hợp lệ. Sử dụng vị trí mặc định!");
+                    binding.tvRouteInfo.setText("Không tìm thấy địa chỉ hợp lệ.");
                 }
             } else {
                 Log.w(TAG, "No matching addresses found, using default");
                 useDefaultLocation();
-                binding.tvRouteInfo.setText("Không tìm thấy địa chỉ phù hợp. Sử dụng vị trí mặc định!");
+                binding.tvRouteInfo.setText("Không tìm thấy địa chỉ phù hợp.");
             }
         } catch (Exception e) {
             Log.e(TAG, "Geocoder error: " + e.getMessage());
             useDefaultLocation();
-            binding.tvRouteInfo.setText("Lỗi khi tìm địa chỉ. Sử dụng vị trí mặc định!");
+            binding.tvRouteInfo.setText("Lỗi khi tìm địa chỉ.");
         }
     }
 
@@ -169,28 +258,37 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback {
         return pattern.matcher(normalized).replaceAll("");
     }
 
-    private void updateMapWithLocation(LatLng userLocation) {
-        // Thêm marker cho vị trí người dùng
-        mMap.clear(); // Xóa marker cũ để tránh chồng chéo
-        mMap.addMarker(new MarkerOptions()
-                .position(userLocation)
-                .title("Vị trí của bạn")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+    private void updateMapWithLocation() {
+        try {
+            // Clear existing markers and polylines
+            mMap.clear();
 
-        // Thêm marker cho các chi nhánh ngân hàng
-        for (int i = 0; i < bankBranches.size(); i++) {
-            LatLng branch = bankBranches.get(i);
+            // Add user location marker
             mMap.addMarker(new MarkerOptions()
-                    .position(branch)
-                    .title("Chi nhánh " + (i + 1)));
+                    .position(userLocation)
+                    .title("Vị trí của bạn")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
+            // Add bank branch markers
+            for (int i = 0; i < bankBranches.size(); i++) {
+                LatLng branch = bankBranches.get(i);
+                mMap.addMarker(new MarkerOptions()
+                        .position(branch)
+                        .title("Chi nhánh " + (i + 1)));
+            }
+
+            // Find nearest branch and suggest route
+            LatLng nearestBranch = findNearestBranch(userLocation);
+            suggestRoute(userLocation, nearestBranch);
+
+            // Animate camera to user location
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15f));
+        } catch (Exception e) {
+            Log.e(TAG, "Error updating map: " + e.getMessage());
+            Toast.makeText(requireContext(), 
+                "Không thể cập nhật bản đồ. Vui lòng thử lại.", 
+                Toast.LENGTH_LONG).show();
         }
-
-        // Tìm chi nhánh gần nhất và đề xuất lộ trình
-        LatLng nearestBranch = findNearestBranch(userLocation);
-        suggestRoute(userLocation, nearestBranch);
-
-        // Zoom vào vị trí người dùng
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15f));
     }
 
     private LatLng findNearestBranch(LatLng userLocation) {
@@ -237,9 +335,59 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback {
                 .color(0xFF0288D1));
     }
 
+    private void startLocationUpdates() {
+        // Create location request
+        LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, UPDATE_INTERVAL)
+                .setMinUpdateIntervalMillis(FASTEST_INTERVAL)
+                .setMaxUpdateDelayMillis(UPDATE_INTERVAL)
+                .build();
+
+        // Create location settings request
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+
+        // Check location settings
+        SettingsClient settingsClient = LocationServices.getSettingsClient(requireActivity());
+        settingsClient.checkLocationSettings(builder.build())
+                .addOnSuccessListener(locationSettingsResponse -> {
+                    // Location settings are satisfied, start location updates
+                    if (ActivityCompat.checkSelfPermission(requireContext(),
+                            android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        fusedLocationClient.requestLocationUpdates(locationRequest,
+                                locationCallback,
+                                null);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Location settings check failed: " + e.getMessage());
+                    // Handle location settings failure
+                    Toast.makeText(requireContext(), 
+                        "Vui lòng bật định vị để sử dụng tính năng này", 
+                        Toast.LENGTH_LONG).show();
+                });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                         @NonNull int[] grantResults) {
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startLocationUpdates();
+            } else {
+                Toast.makeText(requireContext(), 
+                    "Cần quyền truy cập vị trí để sử dụng tính năng này", 
+                    Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        // Stop location updates when fragment is destroyed
+        if (fusedLocationClient != null && locationCallback != null) {
+            fusedLocationClient.removeLocationUpdates(locationCallback);
+        }
         binding.mapView.onDestroy();
         binding = null;
     }
