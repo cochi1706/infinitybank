@@ -68,21 +68,21 @@ public class AccountInfoFragment extends Fragment {
 
         for (BankAccount account : accounts) {
             switch (account.getType()) {
-                case "Main":
+                case "Chính":
                     binding.tvMainBalance.setText(numberFormat.format(account.getBalance()) + " VND");
                     break;
-                case "Saving":
+                case "Tiết kiệm":
                     binding.savingAccount.setVisibility(View.VISIBLE);
                     binding.tvSavingBalance.setText(numberFormat.format(account.getBalance()) + " VND");
                     if (account.getInterestRate() != 0) {
-                        binding.tvSavingInterestRate.setText((int)(account.getInterestRate() * 100) + "%");
+                        binding.tvSavingInterestRate.setText((int)account.getInterestRate() + "%");
                     }
                     double monthlyProfit = account.getBalance() *
                             (account.getInterestRate() / 100) / 12;
                     String formattedMonthlyProfit = String.format("%,d VND", (long) monthlyProfit);
                     binding.tvSavingMonthlyProfit.setText(formattedMonthlyProfit);
                     break;
-                case "Loan":
+                case "Thế chấp":
                     binding.loanAccount.setVisibility(View.VISIBLE);
                     binding.tvLoanBalance.setText(numberFormat.format(account.getMonthlyPayment()) + " VND");
                     break;
